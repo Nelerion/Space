@@ -13,12 +13,13 @@ const BoxContainer = styled(Box)`
   justify-content: space-between;
 `;
 
+
 function App() {
   return (
     <>
-      <CssBaseline />
-      <Container maxWidth="lg">
-        <BoxContainer sx={{ bgcolor: "#cfe8fc", height: "100vh" }}>
+      <CssBaseline  />
+      <Container maxWidth="lg" >
+        <BoxContainer sx={{ height: "100vh" }}>
           <Header />
           <Content />
           <Footer />
