@@ -2,6 +2,7 @@ import { ContentData, InfoData, ImageData } from "./style";
 import { IAPOD } from "../../../../store/slices/nasaSlice";
 import styled from "styled-components";
 import { useAppSelector } from "../../../../store/hooks";
+import CircularProgress from "@mui/material/CircularProgress";
 
 interface PROPS {
   data?: IAPOD;
@@ -25,22 +26,24 @@ const Copyright = styled(Date)`
 `;
 const Image = styled.img`
   width: 100%;
-  height:70%;
+  height: 70%;
 `;
 const APOD_page = ({ data }: PROPS) => {
-const isLoad = useAppSelector(state=>state.space.loading)
+  const isLoad = useAppSelector((state) => state.space.loading);
 
   return (
     <ContentData>
-      {isLoad?'Загрузка...':<InfoData>
-        <Title>{data?.title}</Title>
-        <Date>{data?.date}</Date>
-        <Explanation>{data?.explanation}</Explanation>
-        <Copyright>{data?.copyright}</Copyright>
-      </InfoData>}
-      {isLoad?'Загрузка...':<ImageData>
-        <Image src={data?.url} alt="nasa" />
-      </ImageData>}
+      {isLoad?<CircularProgress/>:<>
+        <InfoData>
+          <Title>{data?.title}</Title>
+          <Date>{data?.date}</Date>
+          <Explanation>{data?.explanation}</Explanation>
+          <Copyright>{data?.copyright}</Copyright>
+        </InfoData>
+        <ImageData>
+          <Image src={data?.url} alt="nasa" />
+        </ImageData>
+      </>}
     </ContentData>
   );
 };

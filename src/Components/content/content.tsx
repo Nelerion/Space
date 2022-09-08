@@ -5,6 +5,7 @@ import { useAppSelector } from "./../../store/hooks";
 import Asteroids_page from "./page/asteroids/asteroids";
 const ContentBox = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

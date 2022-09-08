@@ -2,9 +2,8 @@ import styled from "styled-components";
 
 export const ContentData = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   flex-direction: row;
 `;
@@ -24,7 +23,6 @@ export const ImageData = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: row;
- 
   padding: 40px;
   border-left:1px solid #c9c7c5;
 `;

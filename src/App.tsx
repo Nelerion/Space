@@ -19,10 +19,10 @@ function App() {
     <>
       <CssBaseline  />
       <Container maxWidth="lg" >
-        <BoxContainer sx={{ height: "100vh" }}>
+        <BoxContainer sx={{ height: "100%" }}>
           <Header />
           <Content />
-          <Footer />
+      <Footer/>
         </BoxContainer>
       </Container>
     </>
