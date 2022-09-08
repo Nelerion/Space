@@ -12,16 +12,24 @@ export interface IAPOD {
 }
 export interface IAsteroids {
   count: any;
-  links:any
+  links: any;
   earth_objects: any;
 }
 export interface STATE {
   APOD: IAPOD | undefined;
   Asteroids: IAsteroids | undefined;
+  AstrDate: {
+    startDate: number | string | undefined;
+    endDate: number | string | undefined;
+  };
 }
 const initialState: STATE = {
   APOD: undefined,
   Asteroids: undefined,
+  AstrDate: {
+    startDate: "2015-09-07",
+    endDate: "2015-09-08",
+  },
 };
 
 export const spaceSlice = createSlice({

@@ -8,13 +8,36 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { useSelector } from "react-redux";
+import { useAppSelector } from "../../../../store/hooks";
 
 interface PROPS {
   data?: IAsteroids;
 }
 
+
+interface IAstrApproachData{
+  orbiting_body:string
+}
+interface IAsteroidData{
+  name:string
+  is_potentially_hazardous_asteroid:boolean
+  absolute_magnitude_h:number
+  estimated_diameter:{
+    meters:{
+      estimated_diameter_max:number
+      estimated_diameter_min:number
+    }
+  }
+  close_approach_data:IAstrApproachData[]
+}
+
 const Asteroids_page = ({ data }: PROPS) => {
-  const obj = data?.earth_objects["2015-09-07"];
+  const astedoidsDateStart = useAppSelector(state=>state.space.AstrDate.startDate);
+  const astedoidsDateEnd = useAppSelector(state=>state.space.AstrDate.endDate);
+
+  
+  const obj = data?.earth_objects[String(astedoidsDateEnd)];
  console.log(data)
  
   return (
@@ -26,12 +49,12 @@ const Asteroids_page = ({ data }: PROPS) => {
               <TableCell>Name Asteroid</TableCell>
               <TableCell align="center">Potentially dangerous</TableCell>
               <TableCell align="center">Absolute magnitude</TableCell>
-              <TableCell align="center">diameter (meters)</TableCell>
-              <TableCell align="center">Protein&nbsp;(g)</TableCell>
+              <TableCell align="center">Diameter (meters)</TableCell>
+              <TableCell align="center">Orbiting body</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {obj?.map((asteroid: any) => (
+            {obj?.map((asteroid: IAsteroidData) => (
               <TableRow
                 key={asteroid.name}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -44,7 +67,7 @@ const Asteroids_page = ({ data }: PROPS) => {
                 </TableCell>
                 <TableCell align="center">{asteroid.absolute_magnitude_h}</TableCell>
                 <TableCell align="center">{Math.ceil((asteroid.estimated_diameter.meters.estimated_diameter_max+asteroid.estimated_diameter.meters.estimated_diameter_min)/2)}</TableCell>
-                <TableCell align="center"></TableCell>
+                <TableCell align="center">{asteroid.close_approach_data.map((data:IAstrApproachData)=><>{data.orbiting_body}</>)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
