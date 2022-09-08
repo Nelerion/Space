@@ -6,7 +6,7 @@ export const ContentData = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-direction: row;
+  flex-direction: column;
 `;
 
 export const InfoData = styled.div`
@@ -28,3 +28,31 @@ export const ImageData = styled.div`
   padding: 40px;
   border-left:1px solid #c9c7c5;
 `;
+
+export const ButtonPrevNext = styled.input`
+display:flex;
+justify-content: center;
+align-items: center;
+width:40%;
+height:40px;
+border:0;
+background-color:#45048f;
+color:white;
+&:hover{
+  background-color:#5a08b8;
+  cursor: pointer;
+}
+`
+
+export const ButtonPrevNextBlock = styled.div`
+display:flex;
+justify-content: space-between;
+align-items: center;
+width:100%;
+margin-top: 5px;;
+`
+
+export const Pages = styled.span`
+cursor: pointer;
+font-size: 20px;
+`

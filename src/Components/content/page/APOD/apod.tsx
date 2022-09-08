@@ -1,6 +1,7 @@
 import { ContentData, InfoData, ImageData } from "./style";
 import { IAPOD } from "../../../../store/slices/nasaSlice";
 import styled from "styled-components";
+import { useAppSelector } from "../../../../store/hooks";
 
 interface PROPS {
   data?: IAPOD;
@@ -27,19 +28,19 @@ const Image = styled.img`
   height:70%;
 `;
 const APOD_page = ({ data }: PROPS) => {
-
+const isLoad = useAppSelector(state=>state.space.loading)
 
   return (
     <ContentData>
-      <InfoData>
+      {isLoad?'Загрузка...':<InfoData>
         <Title>{data?.title}</Title>
         <Date>{data?.date}</Date>
         <Explanation>{data?.explanation}</Explanation>
         <Copyright>{data?.copyright}</Copyright>
-      </InfoData>
-      <ImageData>
+      </InfoData>}
+      {isLoad?'Загрузка...':<ImageData>
         <Image src={data?.url} alt="nasa" />
-      </ImageData>
+      </ImageData>}
     </ContentData>
   );
 };

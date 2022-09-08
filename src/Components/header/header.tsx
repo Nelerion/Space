@@ -7,7 +7,7 @@ import { NavLink, useHref, useLocation } from "react-router-dom";
 import logo from "./../../img/logo.png";
 import { ITabs } from "./modal";
 import { useEffect, useState } from "react";
-
+import { format } from "date-fns";
 import {
   HeaderBox,
   HeaderToolBar,
@@ -20,9 +20,9 @@ import { fetchAPOD, fetchAsteroids } from "./fetch";
 import {
   fetchingAPOD,
   fetchingAsteroids,
+  isLoading,
 } from "./../../store/slices/nasaSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 const Header = () => {
   const [value, setValue] = useState<number>(0);
@@ -60,15 +60,27 @@ const Header = () => {
     },
   ]);
 
+  const isDate = new Date();
+  const todayMonth: number = Number(isDate.getMonth());
+  const todayYear: number = Number(isDate.getFullYear());
+  const day: number = Number(new Date().getDate());
+  const nowDate = format(new Date(todayYear, todayMonth, day), "yyyy-MM-dd");
+  const prevDate = format(
+    new Date(todayYear, todayMonth, day - 7),
+    "yyyy-MM-dd"
+  );
+
   useEffect(() => {
     if (location.pathname === "/APOD") {
+      dispatch(isLoading());
       fetchAPOD().then((result) => dispatch(fetchingAPOD(result)));
     }
     if (location.pathname === "/Asteroids") {
-      fetchAsteroids().then((result) => {
+      fetchAsteroids(nowDate, prevDate).then((result) => {
         const count = result.element_count;
         const earth_objects = result.near_earth_objects;
         const links = result.links;
+        console.log(`result`)
         dispatch(
           fetchingAsteroids({
             count,

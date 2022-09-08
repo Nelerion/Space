@@ -1,5 +1,43 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "./../store";
+import { format } from "date-fns";
+
+const isDate = new Date();
+const todayMonth: number = Number(isDate.getMonth());
+const todayYear: number = Number(isDate.getFullYear());
+const day: number = Number(new Date().getDate());
+const nowDay = new Date(todayYear, todayMonth, day).getDate();
+
+const nowDate = format(new Date(todayYear, todayMonth, day), "yyyy-MM-dd");
+const prevDate1 = format(
+  new Date(todayYear, todayMonth, day - 1),
+  "yyyy-MM-dd"
+);
+const prevDate2 = format(
+  new Date(todayYear, todayMonth, day - 2),
+  "yyyy-MM-dd"
+);
+const prevDate3 = format(
+  new Date(todayYear, todayMonth, day - 3),
+  "yyyy-MM-dd"
+);
+const prevDate4 = format(
+  new Date(todayYear, todayMonth, day - 4),
+  "yyyy-MM-dd"
+);
+const prevDate5 = format(
+  new Date(todayYear, todayMonth, day - 5),
+  "yyyy-MM-dd"
+);
+const prevDate6 = format(
+  new Date(todayYear, todayMonth, day - 6),
+  "yyyy-MM-dd"
+);
+const prevDate7 = format(
+  new Date(todayYear, todayMonth, day - 7),
+  "yyyy-MM-dd"
+);
+
 export interface IAPOD {
   copyright: string;
   date: string;
@@ -10,26 +48,68 @@ export interface IAPOD {
   title: string;
   url: string;
 }
+interface Iclose_approach_data {
+  close_approach_date: string;
+  close_approach_date_full: string;
+  epoch_date_close_approach: number;
+}
+
+export interface Iearth_objects {
+  absolute_magnitude_h: number;
+  close_approach_data: Iclose_approach_data[];
+  estimated_diameter: {
+    feet: {
+      estimated_diameter_max: number;
+      estimated_diameter_min: number;
+    };
+    kilometers: {
+      estimated_diameter_max: number;
+      estimated_diameter_min: number;
+    };
+    meters: {
+      estimated_diameter_max: number;
+      estimated_diameter_min: number;
+    };
+    miles: {
+      estimated_diameter_max: number;
+      estimated_diameter_min: number;
+    };
+  };
+  id: string;
+  is_potentially_hazardous_asteroid: boolean;
+  is_sentry_object: boolean;
+  links: {
+    self: string;
+  };
+  name: string;
+  nasa_jpl_url: string;
+  neo_reference_id: string;
+}
+
 export interface IAsteroids {
-  count: any;
-  links: any;
-  earth_objects: any;
+  count: number | undefined;
+  links:{
+        next: string;
+        previous: string;
+        self: string;
+      }
+    | undefined;
+  earth_objects: Iearth_objects |Iearth_objects[]| undefined;
 }
 export interface STATE {
   APOD: IAPOD | undefined;
   Asteroids: IAsteroids | undefined;
-  AstrDate: {
-    startDate: number | string | undefined;
-    endDate: number | string | undefined;
-  };
+  loading: boolean;
 }
+
 const initialState: STATE = {
   APOD: undefined,
-  Asteroids: undefined,
-  AstrDate: {
-    startDate: "2015-09-07",
-    endDate: "2015-09-08",
+  Asteroids: {
+    count: undefined,
+    links: undefined,
+    earth_objects: undefined,
   },
+  loading: false,
 };
 
 export const spaceSlice = createSlice({
@@ -38,15 +118,28 @@ export const spaceSlice = createSlice({
   reducers: {
     fetchingAPOD: (state, action: PayloadAction<IAPOD>) => {
       state.APOD = action.payload;
+      state.loading = false;
     },
-    fetchingAsteroids: (state, action: PayloadAction<IAsteroids>) => {
-      state.Asteroids = action.payload;
+    fetchingAsteroids: (
+      state,
+      { payload: { count, links, earth_objects } }: PayloadAction<IAsteroids>
+    ) => {
+      if (state.Asteroids !== undefined) {
+        state.Asteroids.count = count;
+        state.Asteroids.links = links;
+        state.Asteroids.earth_objects=earth_objects;
+        state.loading = false;
+      }
+    },
+    isLoading: (state) => {
+      state.loading = true;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { fetchingAPOD, fetchingAsteroids } = spaceSlice.actions;
+export const { fetchingAPOD, fetchingAsteroids, isLoading } =
+  spaceSlice.actions;
 // export const APOD = (state: RootState) => state.space.APOD;
 // export const Astteroids = (state: RootState) => state.space.Asteroids;
 
