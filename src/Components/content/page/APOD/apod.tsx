@@ -1,4 +1,13 @@
-import { ContentData, InfoData, ImageData } from "./style";
+import {
+  ContentData,
+  InfoData,
+  ImageData,
+  Title,
+  Explanation,
+  Date,
+  Copyright,
+  Image,
+} from "./style";
 import { IAPOD } from "../../../../store/slices/nasaSlice";
 import styled from "styled-components";
 import { useAppSelector } from "../../../../store/hooks";
@@ -8,42 +17,26 @@ interface PROPS {
   data?: IAPOD;
 }
 
-const Title = styled.h1`
-  font-size: 2rem;
-`;
-const Explanation = styled.span``;
-const Date = styled.span`
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 5px;
-  font-weight: bold;
-`;
-const Copyright = styled(Date)`
-  justify-content: flex-start;
-  font-size: 14px;
-  color: #b1afb3;
-  margin-top: 10px;
-`;
-const Image = styled.img`
-  width: 100%;
-  height: 70%;
-`;
 const APOD_page = ({ data }: PROPS) => {
   const isLoad = useAppSelector((state) => state.space.loading);
 
   return (
     <ContentData>
-      {isLoad?<CircularProgress/>:<>
-        <InfoData>
-          <Title>{data?.title}</Title>
-          <Date>{data?.date}</Date>
-          <Explanation>{data?.explanation}</Explanation>
-          <Copyright>{data?.copyright}</Copyright>
-        </InfoData>
-        <ImageData>
-          <Image src={data?.url} alt="nasa" />
-        </ImageData>
-      </>}
+      {isLoad ? (
+        <CircularProgress />
+      ) : (
+        <>
+          <InfoData>
+            <Title>{data?.title}</Title>
+            <Date>{data?.date}</Date>
+            <Explanation>{data?.explanation}</Explanation>
+            <Copyright>{data?.copyright}</Copyright>
+          </InfoData>
+          <ImageData>
+            <Image src={data?.url} alt="nasa" />
+          </ImageData>
+        </>
+      )}
     </ContentData>
   );
 };
