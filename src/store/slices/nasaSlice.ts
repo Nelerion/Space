@@ -1,8 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "./../store";
 
-
-
+export interface IEPIC {
+  caption: string | undefined;
+  centroid_coordinates: {
+    lat: number;
+    lon: number;
+  };
+  date: string | undefined;
+  image: string | undefined;
+}
 
 export interface IAPOD {
   copyright: string;
@@ -14,7 +21,7 @@ export interface IAPOD {
   title: string;
   url: string;
 }
-interface Iclose_approach_data {
+export interface Iclose_approach_data {
   close_approach_date: string;
   close_approach_date_full: string;
   epoch_date_close_approach: number;
@@ -54,17 +61,19 @@ export interface Iearth_objects {
 
 export interface IAsteroids {
   count: number | undefined;
-  links:{
+  links:
+    | {
         next: string;
         previous: string;
         self: string;
       }
     | undefined;
-  earth_objects: Iearth_objects |Iearth_objects[]| undefined;
+  earth_objects: Iearth_objects | Iearth_objects[] | undefined;
 }
 export interface STATE {
   APOD: IAPOD | undefined;
   Asteroids: IAsteroids | undefined;
+  EPIC: IEPIC[] | undefined;
   loading: boolean;
 }
 
@@ -75,6 +84,8 @@ const initialState: STATE = {
     links: undefined,
     earth_objects: undefined,
   },
+  EPIC:undefined,
+
   loading: false,
 };
 
@@ -93,9 +104,13 @@ export const spaceSlice = createSlice({
       if (state.Asteroids !== undefined) {
         state.Asteroids.count = count;
         state.Asteroids.links = links;
-        state.Asteroids.earth_objects=earth_objects;
+        state.Asteroids.earth_objects = earth_objects;
         state.loading = false;
       }
+    },
+    fetchingEPIC: (state, { payload }: PayloadAction<IEPIC[]>) => {
+      state.EPIC = payload;
+      state.loading = false;
     },
     isLoading: (state) => {
       state.loading = true;
@@ -104,7 +119,7 @@ export const spaceSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { fetchingAPOD, fetchingAsteroids, isLoading } =
+export const { fetchingAPOD, fetchingAsteroids, fetchingEPIC, isLoading } =
   spaceSlice.actions;
 // export const APOD = (state: RootState) => state.space.APOD;
 // export const Astteroids = (state: RootState) => state.space.Asteroids;

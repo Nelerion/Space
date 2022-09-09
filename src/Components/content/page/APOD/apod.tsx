@@ -8,18 +8,24 @@ import {
   Copyright,
   Image,
 } from "./style";
-import { IAPOD } from "../../../../store/slices/nasaSlice";
+import { fetchingAPOD, IAPOD, isLoading } from "../../../../store/slices/nasaSlice";
 import styled from "styled-components";
-import { useAppSelector } from "../../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useEffect } from "react";
+import { fetchAPOD } from "../../../header/fetch";
 
-interface PROPS {
-  data?: IAPOD;
-}
 
-const APOD_page = ({ data }: PROPS) => {
+
+const APOD_page = () => {
+const dispatch= useAppDispatch();
+  const data = useAppSelector((state) => state.space.APOD);
   const isLoad = useAppSelector((state) => state.space.loading);
 
+  useEffect(() => {
+      dispatch(isLoading());
+      fetchAPOD().then((result) => dispatch(fetchingAPOD(result)));
+  }, []);
   return (
     <ContentData>
       {isLoad ? (

@@ -27,3 +27,16 @@ export async function fetchAsteroids(startDate:string, endDate:string,) {
   });
   return result;
 }
+
+export async function fetchEPIC(lastDayDate:string) {
+  const result = await fetch(
+    `https://api.nasa.gov/EPIC/api/natural/date/${lastDayDate}?api_key=T1o7a8ETUeBHlhw5h3Rt8l1NMtnCesyRB3cuDvLV`
+  ).then((res) => {
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+    return res.json();
+  });
+  return result;
+}
+

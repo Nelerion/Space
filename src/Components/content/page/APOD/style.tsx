@@ -5,7 +5,6 @@ export const ContentData = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-direction: row;
 `;
 
@@ -47,7 +46,11 @@ export const Copyright = styled(Date)`
   margin-top: 10px;
 `;
 export const Image = styled.img`
-  width: 100%;
-  height: 70%;
+  max-width: 100%;
+    height: auto;
   pointer-events: none;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  padding: 5px;
+  background-color: white;
 `;

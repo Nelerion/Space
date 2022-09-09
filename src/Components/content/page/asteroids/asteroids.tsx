@@ -8,7 +8,11 @@ import {
   ButtonSearch,
 } from "./style";
 
-import { Iearth_objects } from "../../../../store/slices/nasaSlice";
+import {
+  fetchingAsteroids,
+  Iearth_objects,
+  isLoading,
+} from "../../../../store/slices/nasaSlice";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -19,16 +23,44 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
 
-import { PROPS, IAstrApproachData } from "./model";
 import { useState, useEffect } from "react";
-import { useAppSelector } from "../../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
+import { fetchAsteroids } from "../../../header/fetch";
+import format from "date-fns/format";
 
-const Asteroids_page:React.FC<PROPS> = ({
-  data,
-  setStartDateValue,
-  setPrevDateValue,
-}) => {
-  const isLoad = useAppSelector(state=>state.space.loading)
+const Asteroids_page: React.FC = () => {
+
+  const dispatch = useAppDispatch();
+
+  const isDate = new Date();
+  const todayMonth: number = Number(isDate.getMonth());
+  const todayYear: number = Number(isDate.getFullYear());
+  const day: number = Number(new Date().getDate());
+  const nowDate = format(new Date(todayYear, todayMonth, day), "yyyy-MM-dd");
+  const prevDate = format(
+    new Date(todayYear, todayMonth, day - 7),
+    "yyyy-MM-dd"
+  );
+  const [startDateValue, setStartDateValue] = useState<string>(nowDate );
+  const [prevDateValue, setPrevDateValue] = useState<string>(prevDate);
+  useEffect(() => {
+    dispatch(isLoading());
+    fetchAsteroids(startDateValue, prevDateValue).then((result) => {
+      const count = result.element_count;
+      const earth_objects = result.near_earth_objects;
+      const links = result.links;
+      dispatch(
+        fetchingAsteroids({
+          count,
+          earth_objects,
+          links,
+        })
+      );
+    });
+  }, [startDateValue, prevDateValue]);
+
+  const data = useAppSelector((state) => state.space.Asteroids);
+  const isLoad = useAppSelector((state) => state.space.loading);
   const [asteroidsArrayNumber, setAsteroidsArrayNumber] = useState<number>(0);
   const [pagination, SetPagination] = useState<number[]>([]);
   const obj = data?.earth_objects;
@@ -39,6 +71,7 @@ const Asteroids_page:React.FC<PROPS> = ({
   const [startDateAsteroidValue, setStartDateAsteroidValue] =
     useState<string>("");
   const [endDateAsteroidValue, setEndDateAsteroidValue] = useState<string>("");
+
   const prevPage = () => {
     setAsteroidsArrayNumber((prev) => prev - 1);
   };
@@ -117,9 +150,11 @@ const Asteroids_page:React.FC<PROPS> = ({
           placeholder="end date format YYYY-MM-DD"
         ></SearchAsteroidInput>
       </SearchAsteroidInputForm>
-      {isLoad&&<Box sx={{ width: "100%" }}>
-        <LinearProgress />
-      </Box>}
+      {isLoad && (
+        <Box sx={{ width: "100%" }}>
+          <LinearProgress />
+        </Box>
+      )}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650, minHeight: 600 }} aria-label="simple table">
           <TableHead>
@@ -174,3 +209,6 @@ const Asteroids_page:React.FC<PROPS> = ({
   );
 };
 export default Asteroids_page;
+function dispatch(arg0: any) {
+  throw new Error("Function not implemented.");
+}
