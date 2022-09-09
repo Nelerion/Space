@@ -1,42 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "./../store";
-import { format } from "date-fns";
 
-const isDate = new Date();
-const todayMonth: number = Number(isDate.getMonth());
-const todayYear: number = Number(isDate.getFullYear());
-const day: number = Number(new Date().getDate());
-const nowDay = new Date(todayYear, todayMonth, day).getDate();
 
-const nowDate = format(new Date(todayYear, todayMonth, day), "yyyy-MM-dd");
-const prevDate1 = format(
-  new Date(todayYear, todayMonth, day - 1),
-  "yyyy-MM-dd"
-);
-const prevDate2 = format(
-  new Date(todayYear, todayMonth, day - 2),
-  "yyyy-MM-dd"
-);
-const prevDate3 = format(
-  new Date(todayYear, todayMonth, day - 3),
-  "yyyy-MM-dd"
-);
-const prevDate4 = format(
-  new Date(todayYear, todayMonth, day - 4),
-  "yyyy-MM-dd"
-);
-const prevDate5 = format(
-  new Date(todayYear, todayMonth, day - 5),
-  "yyyy-MM-dd"
-);
-const prevDate6 = format(
-  new Date(todayYear, todayMonth, day - 6),
-  "yyyy-MM-dd"
-);
-const prevDate7 = format(
-  new Date(todayYear, todayMonth, day - 7),
-  "yyyy-MM-dd"
-);
+
 
 export interface IAPOD {
   copyright: string;

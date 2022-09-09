@@ -42,6 +42,9 @@ color:white;
   background-color:#5a08b8;
   cursor: pointer;
 }
+&:disabled {
+  background-color:#7749ac;
+  }
 `
 
 export const ButtonPrevNextBlock = styled.div`
@@ -52,7 +55,36 @@ width:100%;
 margin-top: 5px;;
 `
 
-export const Pages = styled.span`
+export const PaginationPages = styled.span`
 cursor: pointer;
 font-size: 20px;
 `
+export const SearchAsteroidInputForm = styled.div`
+display:flex;
+justify-content: space-between;
+align-items: center;
+width:100%;
+margin-top: 5px;
+gap:10px;
+`
+
+export const SearchAsteroidInput = styled.input`
+display:flex;
+justify-content: space-between;
+align-items: center;
+width:100%;
+height:35px;
+font-size: 20px;
+padding:5px;
+outline: 0;
+box-sizing: border-box;
+border:2px solid #5a08b8;
+`
+export const ButtonSearch = styled(ButtonPrevNext)`
+  height:35px;
+  border-radius: 5px;
+  text-align:center;
+  outline: 0;
+  width:100%;
+`
+

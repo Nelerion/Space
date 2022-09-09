@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import Tabs from "@mui/material/Tabs";
 import { NavLink, useHref, useLocation } from "react-router-dom";
 import logo from "./../../img/logo.png";
-import { ITabs } from "./modal";
+import { ITabs,Props } from "./modal";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import {
@@ -24,7 +24,12 @@ import {
 } from "./../../store/slices/nasaSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
-const Header = () => {
+const Header:React.FC<Props> = ({
+  startDateValue,
+  prevDateValue,
+  setStartDateValue,
+  setPrevDateValue
+}) => {
   const [value, setValue] = useState<number>(0);
   const [logos, setLogo] = useState<string>("");
   const location = useLocation();
@@ -60,6 +65,8 @@ const Header = () => {
     },
   ]);
 
+ 
+  const stateAsteroid = useAppSelector(state=>state.space.Asteroids)
   const isDate = new Date();
   const todayMonth: number = Number(isDate.getMonth());
   const todayYear: number = Number(isDate.getFullYear());
@@ -70,17 +77,19 @@ const Header = () => {
     "yyyy-MM-dd"
   );
 
+
+
   useEffect(() => {
     if (location.pathname === "/APOD") {
       dispatch(isLoading());
       fetchAPOD().then((result) => dispatch(fetchingAPOD(result)));
     }
     if (location.pathname === "/Asteroids") {
-      fetchAsteroids(nowDate, prevDate).then((result) => {
+      dispatch(isLoading());
+      fetchAsteroids(startDateValue, prevDateValue).then((result) => {
         const count = result.element_count;
         const earth_objects = result.near_earth_objects;
         const links = result.links;
-        console.log(`result`)
         dispatch(
           fetchingAsteroids({
             count,
@@ -90,8 +99,9 @@ const Header = () => {
         );
       });
     }
-  }, [location]);
+  }, [location,startDateValue,prevDateValue]);
 
+ 
   return (
     <div>
       <HeaderBox sx={{ flexGrow: 1 }}>

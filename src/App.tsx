@@ -6,6 +6,7 @@ import styled from "styled-components";
 import Header from "./Components/header/header";
 import Footer from "./Components/footer/footer";
 import Content from "./Components/content/content";
+import { useState } from "react";
 
 const BoxContainer = styled(Box)`
   display: flex;
@@ -15,13 +16,15 @@ const BoxContainer = styled(Box)`
 
 
 function App() {
+  const [startDateValue , setStartDateValue] = useState<string>('')
+  const [prevDateValue , setPrevDateValue] = useState<string>('')
   return (
     <>
       <CssBaseline  />
       <Container maxWidth="lg" >
         <BoxContainer sx={{ height: "100%" }}>
-          <Header />
-          <Content />
+          <Header startDateValue={startDateValue} setStartDateValue={setStartDateValue} prevDateValue={prevDateValue} setPrevDateValue={setPrevDateValue} />
+          <Content startDateValue={startDateValue} setStartDateValue={setStartDateValue} prevDateValue={prevDateValue} setPrevDateValue={setPrevDateValue}  />
       <Footer/>
         </BoxContainer>
       </Container>
