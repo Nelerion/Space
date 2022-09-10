@@ -23,6 +23,7 @@ import {
   ButtonSearchEarth,
   SearchEarth,
   FormSearchEarth,
+  ImageCard,
 } from "./style";
 import Error from "../../../error";
 
@@ -54,23 +55,36 @@ const EPIC: React.FC = () => {
         setError(true);
         return;
       }
-      return res.json().then((element) => {
-        setError(false);
-        let arr: IEPIC[] = [];
-        element.map((element: IEPIC) => {
-          arr.push({
-            caption: element.caption,
-            centroid_coordinates: element.centroid_coordinates,
-            date: element.date,
-            image: element.image,
-          });
+      return res
+        .json()
+        .then((element) => {
+          if (element.length === 0) {
+            setError(true);
+          }
+          return element;
+        })
+
+        .then((element) => {
+          if (element.length !== 0) {
+            setError(false);
+            let arr: IEPIC[] = [];
+            element.map((element: IEPIC) => {
+              arr.push({
+                caption: element.caption,
+                centroid_coordinates: element.centroid_coordinates,
+                date: element.date,
+                image: element.image,
+              });
+            });
+            dispatch(fetchingEPIC(arr));
+          }
+          dispatch(isLoadingFalse());
         });
-        dispatch(fetchingEPIC(arr));
-      });
     });
   }, [startDateValue]);
 
   const data = useAppSelector((state) => state.space.EPIC);
+  console.log(data);
   const changeValueDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/[^0-9,-]/g, "");
     if (value === e.target.value) {
@@ -95,11 +109,13 @@ const EPIC: React.FC = () => {
           placeholder="date format YYYY-MM-DD"
           value={valueDate}
           onChange={changeValueDate}
+          maxLength={10}
         />
         <ButtonSearchEarth
           type="button"
           value="GO"
           onClick={searchFetchImage}
+          disabled={valueDate.length === 0 && true}
         />
       </FormSearchEarth>
       {isLoad && (
@@ -107,38 +123,39 @@ const EPIC: React.FC = () => {
           <LinearProgress />
         </Box>
       )}
-      {error && <Error />}
-      {data?.map((card: IEPIC) => (
-        <CardEpic key={card.image}>
-          <CardActionArea>
-            <a
-              href={`https://epic.gsfc.nasa.gov/archive/natural/${prevDateImage}/png/${card.image}.png`}
-            >
-              <CardMedia
-                component="img"
-                height="300"
-                image={`https://epic.gsfc.nasa.gov/archive/natural/${prevDateImage}/png/${card.image}.png`}
-                alt={`Earth ${card.date}`}
-              />
-            </a>
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {card.date}
-              </Typography>
-              <CardCoord variant="body2" color="text.secondary">
-                <span>
-                  <OptionCoord>Latitude</OptionCoord>{" "}
-                  {card.centroid_coordinates.lat}
-                </span>
-                <span>
-                  <OptionCoord>Longitude</OptionCoord>{" "}
-                  {card.centroid_coordinates.lon}
-                </span>
-              </CardCoord>
-            </CardContent>
-          </CardActionArea>
-        </CardEpic>
-      ))}
+      {error ? (
+        <Error />
+      ) : (
+        data?.map((card: IEPIC) => (
+          <CardEpic key={card.image}>
+            <CardActionArea>
+              <a
+                href={`https://epic.gsfc.nasa.gov/archive/natural/${prevDateImage}/png/${card.image}.png`}
+              >
+                <ImageCard
+                  src={`https://epic.gsfc.nasa.gov/archive/natural/${prevDateImage}/png/${card.image}.png`}
+                  alt={`Earth ${card.date}`}
+                />
+              </a>
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {card.date}
+                </Typography>
+                <CardCoord variant="body2" color="text.secondary">
+                  <span>
+                    <OptionCoord>Latitude</OptionCoord>{" "}
+                    {card.centroid_coordinates.lat}
+                  </span>
+                  <span>
+                    <OptionCoord>Longitude</OptionCoord>{" "}
+                    {card.centroid_coordinates.lon}
+                  </span>
+                </CardCoord>
+              </CardContent>
+            </CardActionArea>
+          </CardEpic>
+        ))
+      )}
     </Epic>
   );
 };

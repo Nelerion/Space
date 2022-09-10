@@ -67,8 +67,6 @@ const CardImage = styled.img`
     z-index: 2;
     transition: 300ms;
     border-radius: 10px;
-    width: 100%;
-    height: 100%;
   }
 `;
 const InfoLabel = styled.div`

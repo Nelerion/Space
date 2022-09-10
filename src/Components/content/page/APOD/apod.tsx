@@ -41,14 +41,14 @@ const APOD_page = () => {
   }, [error]);
 
   return (
-    <ContentData>
+    <div>
       {isLoad && (
         <Box sx={{ width: "100%" }}>
           <LinearProgress />
         </Box>
       )}
       {error?<Error/>:
-        <>
+        <ContentData>
           <InfoData>
             <Title>{data?.title}</Title>
             <Date>{data?.date}</Date>
@@ -58,9 +58,9 @@ const APOD_page = () => {
           <ImageData>
             <Image src={data?.url} alt="nasa" />
           </ImageData>
-        </>
+        </ContentData>
       }
-    </ContentData>
+    </div>
   );
 };
 
