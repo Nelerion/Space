@@ -12,6 +12,7 @@ export const Epic = styled.div`
   gap: 50px;
   box-sizing: border-box;
   margin-top: 5px;
+  margin-bottom: 15px;
 `;
 export const CardEpic = styled(Card)`
   min-width: 25%;

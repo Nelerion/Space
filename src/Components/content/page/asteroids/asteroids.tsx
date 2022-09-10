@@ -12,6 +12,7 @@ import {
   fetchingAsteroids,
   Iearth_objects,
   isLoading,
+  isLoadingFalse,
 } from "../../../../store/slices/nasaSlice";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -22,14 +23,15 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
-
+import Alert from "@mui/material/Alert";
+import { Stack } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { fetchAsteroids } from "../../../header/fetch";
 import format from "date-fns/format";
+import Error from "../../../error";
 
 const Asteroids_page: React.FC = () => {
-
   const dispatch = useAppDispatch();
 
   const isDate = new Date();
@@ -41,21 +43,30 @@ const Asteroids_page: React.FC = () => {
     new Date(todayYear, todayMonth, day - 7),
     "yyyy-MM-dd"
   );
-  const [startDateValue, setStartDateValue] = useState<string>(nowDate );
+  const [startDateValue, setStartDateValue] = useState<string>(nowDate);
   const [prevDateValue, setPrevDateValue] = useState<string>(prevDate);
+  const [error, setError] = useState<boolean>(false);
   useEffect(() => {
     dispatch(isLoading());
-    fetchAsteroids(startDateValue, prevDateValue).then((result) => {
-      const count = result.element_count;
-      const earth_objects = result.near_earth_objects;
-      const links = result.links;
-      dispatch(
-        fetchingAsteroids({
-          count,
-          earth_objects,
-          links,
-        })
-      );
+    fetchAsteroids(startDateValue, prevDateValue).then((res) => {
+      if (res.status >= 400) {
+        dispatch(isLoadingFalse());
+        setError(true);
+        return;
+      }
+      return res.json().then((result) => {
+        setError(false);
+        const count = result.element_count;
+        const earth_objects = result.near_earth_objects;
+        const links = result.links;
+        dispatch(
+          fetchingAsteroids({
+            count,
+            earth_objects,
+            links,
+          })
+        );
+      });
     });
   }, [startDateValue, prevDateValue]);
 
@@ -95,13 +106,16 @@ const Asteroids_page: React.FC = () => {
     setPrevDateValue(endDateAsteroidValue);
   };
   useEffect(() => {
-    const arr: number[] = [];
-    for (let i: number = 1; i < asteroidObject.length + 1; i++) {
-      arr.push(i);
-      SetPagination([...arr]);
+    if (error === true) {
+      SetPagination([]);
+    } else {
+      const arr: number[] = [];
+      for (let i: number = 1; i < asteroidObject.length + 1; i++) {
+        arr.push(i);
+        SetPagination([...arr]);
+      }
     }
-  }, [indexArray]);
-
+  }, [indexArray,error]);
   return (
     <ContentData>
       <ButtonPrevNextBlock>
@@ -155,6 +169,7 @@ const Asteroids_page: React.FC = () => {
           <LinearProgress />
         </Box>
       )}
+      {error && <Error />}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650, minHeight: 600 }} aria-label="simple table">
           <TableHead>
@@ -172,7 +187,7 @@ const Asteroids_page: React.FC = () => {
                 key={earth_objects.name}
                 sx={{
                   "&:last-child td, &:last-child th": { border: 0 },
-                  "&:nth-child(odd)": { backgroundColor: "#e6e0e0" },
+                  "&:nth-of-type(2n)": { backgroundColor: "#e6e0e0" },
                 }}
               >
                 <TableCell component="th" scope="row">
@@ -209,6 +224,3 @@ const Asteroids_page: React.FC = () => {
   );
 };
 export default Asteroids_page;
-function dispatch(arg0: any) {
-  throw new Error("Function not implemented.");
-}

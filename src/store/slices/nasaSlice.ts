@@ -11,6 +11,26 @@ export interface IEPIC {
   image: string | undefined;
 }
 
+export interface IMars {
+    camera: {
+      full_name: string;
+      id: number;
+      name: string;
+      rover_id: number;
+    };
+    earth_date: string;
+    id: number;
+    img_src: string;
+    rover: {
+      id: number;
+      landing_date: string;
+      launch_date: string;
+      name: string;
+      status: string;
+    };
+    sol: number;
+}
+
 export interface IAPOD {
   copyright: string;
   date: string;
@@ -74,6 +94,9 @@ export interface STATE {
   APOD: IAPOD | undefined;
   Asteroids: IAsteroids | undefined;
   EPIC: IEPIC[] | undefined;
+  Mars:{
+    photos:IMars[]|undefined
+  }
   loading: boolean;
 }
 
@@ -84,8 +107,10 @@ const initialState: STATE = {
     links: undefined,
     earth_objects: undefined,
   },
-  EPIC:undefined,
-
+  EPIC: undefined,
+  Mars:{
+    photos:undefined
+  },
   loading: false,
 };
 
@@ -112,15 +137,28 @@ export const spaceSlice = createSlice({
       state.EPIC = payload;
       state.loading = false;
     },
+    fetchingMars: (state, { payload }: PayloadAction<IMars[]>) => {
+      state.Mars.photos = payload;
+      state.loading = false;
+    },
     isLoading: (state) => {
       state.loading = true;
+    },
+    isLoadingFalse: (state) => {
+      state.loading = false;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { fetchingAPOD, fetchingAsteroids, fetchingEPIC, isLoading } =
-  spaceSlice.actions;
+export const {
+  fetchingAPOD,
+  fetchingAsteroids,
+  fetchingEPIC,
+  fetchingMars,
+  isLoading,
+  isLoadingFalse
+} = spaceSlice.actions;
 // export const APOD = (state: RootState) => state.space.APOD;
 // export const Astteroids = (state: RootState) => state.space.Asteroids;
 

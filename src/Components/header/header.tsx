@@ -3,10 +3,10 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import Tabs from "@mui/material/Tabs";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import logo from "./../../img/logo.png";
 import { ITabs } from "./modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   HeaderBox,
   HeaderToolBar,
@@ -18,10 +18,28 @@ import {
 
 const Header: React.FC = () => {
   const [value, setValue] = useState<number>(0);
-
+  const location = useLocation();
   const handleChange = (newValue: number) => {
     setValue(newValue);
   };
+  useEffect(()=>{
+    switch(location.pathname) {
+      case '/APOD':
+        handleChange(0)
+        break;
+        case '/Asteroids':
+        handleChange(1);
+        break;
+        case '/EPIC':
+        handleChange(2);
+        break;
+        case '/Mars':
+          handleChange(3);
+          break;
+    }
+
+  },[location.pathname])
+
 
   const [arr, setArr] = useState<ITabs[]>([
     {
@@ -36,6 +54,10 @@ const Header: React.FC = () => {
     {
       link: "/EPIC",
       label: "EPIC",
+    },
+    {
+      link: "/Mars",
+      label: "Mars",
     },
   ]);
 

@@ -7,12 +7,14 @@ import {
   fetchingEPIC,
   IEPIC,
   isLoading,
+  isLoadingFalse,
 } from "../../../../store/slices/nasaSlice";
 import { useEffect, useState } from "react";
 import format from "date-fns/format";
 import { fetchEPIC } from "../../../header/fetch";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
+
 import {
   Epic,
   CardEpic,
@@ -22,6 +24,7 @@ import {
   SearchEarth,
   FormSearchEarth,
 } from "./style";
+import Error from "../../../error";
 
 const EPIC: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -32,30 +35,38 @@ const EPIC: React.FC = () => {
   const isLoad = useAppSelector((state) => state.space.loading);
   const [valueDate, setValueDate] = useState<string>("");
   const prevDate = format(
-    new Date(todayYear, todayMonth, day - 1), //вчерашняя дата для адреса картинки
+    new Date(todayYear, todayMonth, day - 2), //вчерашняя дата для адреса картинки
     "yyyy/MM/dd"
   );
   const lastDayDate = format(
-    new Date(todayYear, todayMonth, day - 1), //вчерашняя дата для адреса запроса
+    new Date(todayYear, todayMonth, day - 2), //вчерашняя дата для адреса запроса
     "yyyy-MM-dd"
   );
 
   const [startDateValue, setStartDateValue] = useState<string>(lastDayDate);
   const [prevDateImage, setPrevDateImage] = useState<string>(prevDate);
-
+  const [error, setError] = useState<boolean>(false);
   useEffect(() => {
     dispatch(isLoading());
-    fetchEPIC(startDateValue).then((result: IEPIC[]) => {
-      let arr: IEPIC[] = [];
-      result.map((element: IEPIC) => {
-        arr.push({
-          caption: element.caption,
-          centroid_coordinates: element.centroid_coordinates,
-          date: element.date,
-          image: element.image,
+    fetchEPIC(startDateValue).then((res) => {
+      if (res.status >= 400) {
+        dispatch(isLoadingFalse());
+        setError(true);
+        return;
+      }
+      return res.json().then((element) => {
+        setError(false);
+        let arr: IEPIC[] = [];
+        element.map((element: IEPIC) => {
+          arr.push({
+            caption: element.caption,
+            centroid_coordinates: element.centroid_coordinates,
+            date: element.date,
+            image: element.image,
+          });
         });
+        dispatch(fetchingEPIC(arr));
       });
-      dispatch(fetchingEPIC(arr));
     });
   }, [startDateValue]);
 
@@ -64,8 +75,8 @@ const EPIC: React.FC = () => {
     setValueDate(e.target.value);
   };
   const searchFetchImage = () => {
-    setStartDateValue(valueDate);  // считываем дату с поля для запроса
-    setPrevDateImage(format(new Date(valueDate), "yyyy/MM/dd"));//Преобразуем дату для адреса картинок
+    setStartDateValue(valueDate); // считываем дату с поля для запроса
+    setPrevDateImage(format(new Date(valueDate), "yyyy/MM/dd")); //Преобразуем дату для адреса картинок
   };
   return (
     <Epic>
@@ -81,50 +92,45 @@ const EPIC: React.FC = () => {
           onClick={searchFetchImage}
         />
       </FormSearchEarth>
-      {isLoad ? (
+      {isLoad && (
         <Box sx={{ width: "100%" }}>
           <LinearProgress />
         </Box>
-      ) : (
-        data?.map((card: IEPIC) => (
-          <CardEpic>
-            <CardActionArea>
-              <a
-                href={`https://epic.gsfc.nasa.gov/archive/natural/${prevDateImage}/png/${card.image}.png`}
-              >
-                <CardMedia
-                  component="img"
-                  height="300"
-                  image={`https://epic.gsfc.nasa.gov/archive/natural/${prevDateImage}/png/${card.image}.png`}
-                  alt={`Earth ${card.date}`}
-                />
-              </a>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {card.date}
-                </Typography>
-                <CardCoord variant="body2" color="text.secondary">
-                  <span>
-                    <OptionCoord>Latitude</OptionCoord>{" "}
-                    {card.centroid_coordinates.lat}
-                  </span>
-                  <span>
-                    <OptionCoord>Longitude</OptionCoord>{" "}
-                    {card.centroid_coordinates.lon}
-                  </span>
-                </CardCoord>
-              </CardContent>
-            </CardActionArea>
-          </CardEpic>
-        ))
       )}
+      {error && <Error />}
+      {data?.map((card: IEPIC) => (
+        <CardEpic key={card.image}>
+          <CardActionArea>
+            <a
+              href={`https://epic.gsfc.nasa.gov/archive/natural/${prevDateImage}/png/${card.image}.png`}
+            >
+              <CardMedia
+                component="img"
+                height="300"
+                image={`https://epic.gsfc.nasa.gov/archive/natural/${prevDateImage}/png/${card.image}.png`}
+                alt={`Earth ${card.date}`}
+              />
+            </a>
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {card.date}
+              </Typography>
+              <CardCoord variant="body2" color="text.secondary">
+                <span>
+                  <OptionCoord>Latitude</OptionCoord>{" "}
+                  {card.centroid_coordinates.lat}
+                </span>
+                <span>
+                  <OptionCoord>Longitude</OptionCoord>{" "}
+                  {card.centroid_coordinates.lon}
+                </span>
+              </CardCoord>
+            </CardContent>
+          </CardActionArea>
+        </CardEpic>
+      ))}
     </Epic>
   );
 };
 
 export default EPIC;
-
-// caption: element.caption,
-// centroid_coordinates: element.centroid_coordinates,
-// date: element.date,
-// image: element.image,
