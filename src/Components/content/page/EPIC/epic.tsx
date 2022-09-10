@@ -72,12 +72,22 @@ const EPIC: React.FC = () => {
 
   const data = useAppSelector((state) => state.space.EPIC);
   const changeValueDate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValueDate(e.target.value);
+    const value = e.target.value.replace(/[^0-9,-]/g, "");
+    if (value === e.target.value) {
+      setValueDate(e.target.value);
+    }
   };
   const searchFetchImage = () => {
     setStartDateValue(valueDate); // считываем дату с поля для запроса
     setPrevDateImage(format(new Date(valueDate), "yyyy/MM/dd")); //Преобразуем дату для адреса картинок
   };
+
+  useEffect(() => {
+    if (!valueDate || 0 === valueDate.length) {
+      setStartDateValue(lastDayDate);
+      setPrevDateImage(prevDate);
+    }
+  }, [valueDate]);
   return (
     <Epic>
       <FormSearchEarth>

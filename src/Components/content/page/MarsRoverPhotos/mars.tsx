@@ -9,15 +9,9 @@ import {
 } from "../../../../store/slices/nasaSlice";
 import { fetchMarsPhoto } from "../../../header/fetch";
 
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import { CardActionArea, Stack } from "@mui/material";
-import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
-import Alert from "@mui/material/Alert";
-
+import Box from "@mui/material/Box";
+import Error from './../../../error';
 const MarsPhotos = styled.div`
   width: 100%;
   display: flex;
@@ -26,8 +20,62 @@ const MarsPhotos = styled.div`
   align-items: center;
   gap: 30px;
   margin-top: 5px;
+  padding: 10px 0;
 `;
 
+const Card = styled.div`
+  width: 30%;
+  min-width: 250px;
+  height: auto;
+  background-color: #fffbfb;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-shadow: 0px 5px 13px -4px rgba(0, 0, 0, 0.14);
+  -moz-box-shadow: 0px 5px 13px -4px rgba(0, 0, 0, 0.14);
+  box-shadow: 0px 5px 13px -4px rgba(0, 0, 0, 0.14);
+`;
+
+const CardHeader = styled.div`
+  width: 100%;
+  height: 150px;
+  -webkit-box-shadow: 0px 5px 6px -6px rgba(0, 0, 0, 0.38);
+  -moz-box-shadow: 0px 5px 6px -6px rgba(0, 0, 0, 0.38);
+  box-shadow: 0px 5px 6px -6px rgba(0, 0, 0, 0.38);
+`;
+const CardImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+  z-index: -1;
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+    transform: scale(1.05);
+    z-index: 2;
+    transition: 300ms;
+    border-radius: 10px;
+    width: 100%;
+  height: 100%;
+  }
+`;
+const InfoLabel = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+`;
+const CardTitle = styled.h2`
+  margin: 0;
+  padding: 0;
+  color: #686868;
+`;
+const CardSubtext = styled.span``;
+const OptionalName = styled.span`
+  font-weight: bold;
+`
 const Mars = () => {
   const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.space.Mars.photos);
@@ -37,53 +85,43 @@ const Mars = () => {
   useEffect(() => {
     dispatch(isLoading());
     fetchMarsPhoto("1").then((res) => {
-      if (!res.ok) {
+      if (res.status >= 400) {
         dispatch(isLoadingFalse());
         setError(true);
-        throw Error(`is not ok: ` + res.status);
+        return;
       }
       return res.json().then((data) => {
+        setError(false);
         const arr: any = [];
         data.photos.map((mars: any) => arr.push(mars));
         dispatch(fetchingMars(arr));
       });
     });
   }, []);
-
+  console.log(data);
   return (
     <MarsPhotos>
-      {isLoad ? (
-        <Box sx={{ width: "100%" }}>
+      {isLoad&&<Box sx={{ width: "100%" }}>
           <LinearProgress />
-        </Box>
-      ) : (
-        data?.map((mars: IMars) => (
-          <Card sx={{ maxWidth: 345 }}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="140"
-                image={`${mars.img_src}`}
-                alt={`${mars.earth_date}`}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {mars.earth_date}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over
-                  6,000 species, ranging across all continents except Antarctica
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        ))
-      )}
-      {error && (
-        <Stack sx={{ width: "100%" }} spacing={2}>
-          <Alert severity="error">Ошибка!</Alert>
-        </Stack>
-      )}
+        </Box>}
+      {error?<Error/>:data?.map((mars: IMars) => (
+        <Card>
+          <CardHeader>
+            <a href={`${mars.img_src}`}>
+              <CardImage src={`${mars.img_src}`} alt="" />
+            </a>
+          </CardHeader>
+          <InfoLabel>
+            <CardTitle>{mars.earth_date}</CardTitle>
+            <CardSubtext><OptionalName>Camera: </OptionalName>{mars.camera.name}</CardSubtext>
+            <CardSubtext><OptionalName>Rover: </OptionalName>{mars.rover.name}</CardSubtext>
+            <CardSubtext><OptionalName>Status: </OptionalName>{mars.rover.status}</CardSubtext>
+            <CardSubtext><OptionalName>Landing date: </OptionalName>{mars.rover.landing_date}</CardSubtext>
+            <CardSubtext><OptionalName>Launch date: </OptionalName>{mars.rover.launch_date}</CardSubtext>
+          </InfoLabel>
+        </Card>
+      ))}
+
     </MarsPhotos>
   );
 };

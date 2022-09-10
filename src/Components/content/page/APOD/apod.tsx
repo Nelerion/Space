@@ -11,11 +11,9 @@ import {
 } from "./style";
 import {
   fetchingAPOD,
-  IAPOD,
   isLoading,
   isLoadingFalse,
 } from "../../../../store/slices/nasaSlice";
-import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { useEffect, useState } from "react";
 import { fetchAPOD } from "../../../header/fetch";

@@ -92,13 +92,18 @@ const Asteroids_page: React.FC = () => {
   const selectPage = (page: number) => {
     setAsteroidsArrayNumber(page - 1);
   };
-
+  
   const onChangeAsteroidInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/[^0-9,-]/g, "");
     if (e.target.name === "startDate") {
-      setStartDateAsteroidValue(e.target.value);
+      if (e.target.value === value) {
+        setStartDateAsteroidValue(e.target.value);
+      }
     }
     if (e.target.name === "endDate") {
-      setEndDateAsteroidValue(e.target.value);
+      if (e.target.value === value) {
+        setEndDateAsteroidValue(e.target.value);
+      }
     }
   };
   const searchAsteroidForDate = () => {
@@ -115,7 +120,7 @@ const Asteroids_page: React.FC = () => {
         SetPagination([...arr]);
       }
     }
-  }, [indexArray,error]);
+  }, [indexArray, error]);
   return (
     <ContentData>
       <ButtonPrevNextBlock>
