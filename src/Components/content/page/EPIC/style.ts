@@ -32,10 +32,10 @@ export const ImageCard = styled.img`
   object-fit: cover;
   opacity: 0.8;
   z-index: -1;
+  transition: 300ms;
   &:hover {
     opacity: 1;
     cursor: pointer;
-
     z-index: 2;
     transition: 300ms;
     border-radius: 10px;

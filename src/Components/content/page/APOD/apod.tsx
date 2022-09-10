@@ -56,7 +56,7 @@ const APOD_page = () => {
             <Copyright>{data?.copyright}</Copyright>
           </InfoData>
           <ImageData>
-            <Image src={data?.url} alt="nasa" />
+            <a href={`${data?.url}`}><Image src={data?.url} alt={`${data?.title}`} /></a>
           </ImageData>
         </ContentData>
       }

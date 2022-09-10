@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import {
@@ -21,6 +21,7 @@ const MarsContainer = styled.div`
   align-items: center;
   flex-direction: column;
   padding: 10px 0;
+  transition: ease 0.5s;
 `;
 
 const MarsPhotos = styled.div`
@@ -60,6 +61,7 @@ const CardImage = styled.img`
   object-fit: cover;
   opacity: 0.8;
   z-index: -1;
+  transition:300ms;
   &:hover {
     opacity: 1;
     cursor: pointer;
@@ -97,6 +99,7 @@ const LoadMore = styled.input`
   font-size: 30px;
   border-radius: 5px;
   outline: 0;
+  transition:300ms;
   &:hover{
     background-color:#1083ee;
     border:0;
@@ -146,6 +149,9 @@ const Mars = () => {
       });
     });
   }
+ 
+    
+
   return (
     <MarsContainer>
       <MarsPhotos>

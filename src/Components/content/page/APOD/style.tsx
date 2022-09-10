@@ -25,6 +25,12 @@ export const ImageData = styled.div`
   flex-direction: row;
   padding: 40px;
   border-left: 1px solid #c9c7c5;
+  opacity: 0.9;
+  transition:300ms;
+  &:hover{
+    opacity: 1;
+    transition:300ms;
+  }
 `;
 
 export const Title = styled.h1`

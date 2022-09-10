@@ -102,6 +102,8 @@ const EPIC: React.FC = () => {
       setPrevDateImage(prevDate);
     }
   }, [valueDate]);
+
+  
   return (
     <Epic>
       <FormSearchEarth>
