@@ -26,3 +26,10 @@ export async function fetchMarsPhoto(page: string) {
   );
   return result;
 }
+
+export async function fetchMarsPhotoLoadingMore(page: number) {
+  const result = await fetch(
+    `${URL}mars-photos/api/v1/rovers/curiosity/photos?sol=1000&page=${String(page)}&api_key=${KEY}`
+  );
+  return result;
+}

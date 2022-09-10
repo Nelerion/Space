@@ -141,6 +141,10 @@ export const spaceSlice = createSlice({
       state.Mars.photos = payload;
       state.loading = false;
     },
+    fetchingMarsLoadingMore: (state, { payload }: PayloadAction<IMars[]>) => {
+      state.Mars.photos = state.Mars.photos?.concat(payload);
+      state.loading = false;
+    },
     isLoading: (state) => {
       state.loading = true;
     },
@@ -157,7 +161,8 @@ export const {
   fetchingEPIC,
   fetchingMars,
   isLoading,
-  isLoadingFalse
+  isLoadingFalse,
+  fetchingMarsLoadingMore
 } = spaceSlice.actions;
 // export const APOD = (state: RootState) => state.space.APOD;
 // export const Astteroids = (state: RootState) => state.space.Asteroids;
