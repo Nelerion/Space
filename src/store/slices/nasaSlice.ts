@@ -11,6 +11,15 @@ export interface IEPIC {
   image: string | undefined;
 }
 
+export interface ITechTransfer {
+  nameId:string
+  name:string
+  description:string
+  optionalText:string
+  image:string
+  id:string
+}
+
 export interface IMars {
     camera: {
       full_name: string;
@@ -97,6 +106,7 @@ export interface STATE {
   Mars:{
     photos:IMars[]|undefined
   }
+  techTransfer:ITechTransfer[]|undefined
   loading: boolean;
 }
 
@@ -111,6 +121,7 @@ const initialState: STATE = {
   Mars:{
     photos:undefined
   },
+  techTransfer:undefined,
   loading: false,
 };
 
@@ -145,6 +156,10 @@ export const spaceSlice = createSlice({
       state.Mars.photos = state.Mars.photos?.concat(payload);
       state.loading = false;
     },
+    fetchingTechTransfer: (state, { payload }: PayloadAction<ITechTransfer[]>) => {
+      state.techTransfer = payload;
+      state.loading = false;
+    },
     isLoading: (state) => {
       state.loading = true;
     },
@@ -162,7 +177,8 @@ export const {
   fetchingMars,
   isLoading,
   isLoadingFalse,
-  fetchingMarsLoadingMore
+  fetchingMarsLoadingMore,
+  fetchingTechTransfer
 } = spaceSlice.actions;
 // export const APOD = (state: RootState) => state.space.APOD;
 // export const Astteroids = (state: RootState) => state.space.Asteroids;
