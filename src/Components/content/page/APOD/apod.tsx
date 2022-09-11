@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 import { fetchAPOD } from "../../../header/fetch";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
-
+import YouTube, { YouTubeProps } from "react-youtube";
 const APOD_page = () => {
   const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.space.APOD);
@@ -28,7 +28,7 @@ const APOD_page = () => {
   useEffect(() => {
     dispatch(isLoading());
     fetchAPOD().then((res) => {
-      if (res.status>=400) {
+      if (res.status >= 400) {
         dispatch(isLoadingFalse());
         setError(true);
         return;
@@ -40,6 +40,21 @@ const APOD_page = () => {
     });
   }, [error]);
 
+  const onPlayerReady: YouTubeProps["onReady"] = (event) => {
+    // access to player in all event handlers via event.target
+    event.target.pauseVideo();
+  };
+
+  const opts: YouTubeProps["opts"] = {
+    height: "390",
+    width: "540",
+    playerVars: {
+      // https://developers.google.com/youtube/player_parameters
+      autoplay: 1,
+    },
+  };
+
+
   return (
     <div>
       {isLoad && (
@@ -47,7 +62,9 @@ const APOD_page = () => {
           <LinearProgress />
         </Box>
       )}
-      {error?<Error/>:
+      {error ? (
+        <Error />
+      ) : (
         <ContentData>
           <InfoData>
             <Title>{data?.title}</Title>
@@ -56,10 +73,20 @@ const APOD_page = () => {
             <Copyright>{data?.copyright}</Copyright>
           </InfoData>
           <ImageData>
-            <a href={`${data?.url}`}><Image src={data?.url} alt={`${data?.title}`} /></a>
+            {data?.url.includes("youtube") ? (
+              <YouTube
+                videoId={data?.url.split("embed/")[1]}
+                opts={opts}
+                onReady={onPlayerReady}
+              />
+            ) : (
+              <a href={`${data?.url}`}>
+                <Image src={data?.url} alt={`${data?.title}`} />
+              </a>
+            )}
           </ImageData>
         </ContentData>
-      }
+      )}
     </div>
   );
 };
