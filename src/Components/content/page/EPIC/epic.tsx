@@ -84,7 +84,6 @@ const EPIC: React.FC = () => {
   }, [startDateValue]);
 
   const data = useAppSelector((state) => state.space.EPIC);
-  console.log(data);
   const changeValueDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/[^0-9,-]/g, "");
     if (value === e.target.value) {

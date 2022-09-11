@@ -22,24 +22,25 @@ const Header: React.FC = () => {
   const handleChange = (newValue: number) => {
     setValue(newValue);
   };
-  useEffect(()=>{
-    switch(location.pathname) {
-      case '/APOD':
-        handleChange(0)
+  useEffect(() => {
+    switch (location.pathname) {
+      case "/APOD":
+        handleChange(0);
         break;
-        case '/Asteroids':
+      case "/Asteroids":
         handleChange(1);
         break;
-        case '/EPIC':
+      case "/EPIC":
         handleChange(2);
         break;
-        case '/Mars':
-          handleChange(3);
-          break;
+      case "/Mars":
+        handleChange(3);
+        break;
+      case "/techTransfer":
+        handleChange(4);
+        break;
     }
-
-  },[location.pathname])
-
+  }, [location.pathname]);
 
   const [arr, setArr] = useState<ITabs[]>([
     {
@@ -58,6 +59,10 @@ const Header: React.FC = () => {
     {
       link: "/Mars",
       label: "Mars",
+    },
+    {
+      link: "/techTransfer",
+      label: "TechTransfer",
     },
   ]);
 

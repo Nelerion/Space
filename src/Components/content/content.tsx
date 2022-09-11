@@ -5,6 +5,7 @@ import { useAppSelector } from "./../../store/hooks";
 import Asteroids_page from "./page/asteroids/asteroids";
 import EPIC from "./page/EPIC/epic";
 import Mars from "./page/MarsRoverPhotos/mars";
+import TechTransfer from "./page/techTransfer/techTransfer";
 const ContentBox = styled.div`
   width: 100%;
   height: 100%;
@@ -23,9 +24,8 @@ const Content: React.FC = () => {
         <Route path="/Asteroids" element={<Asteroids_page />} />
         <Route path="/EPIC" element={<EPIC />} />
         <Route path="/Mars" element={<Mars />} />
-        {/* <Route path="/EPIC" element={<APOD right="EPIC INFO" />} />
-        <Route path="/Mars" element={<APOD right="MARS INFO" />} />
-        <Route path="/WMTS" element={<APOD right="WMTS INFO" />} /> */}
+        <Route path="/techTransfer" element={<TechTransfer/>} />
+
       </Routes>
     </ContentBox>
   );

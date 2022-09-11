@@ -33,3 +33,10 @@ export async function fetchMarsPhotoLoadingMore(page: number) {
   );
   return result;
 }
+
+export async function fetchTechTransfer() {
+  const result = await fetch(
+    `${URL}techtransfer/patent/?engine&api_key=${KEY}`
+  );
+  return result;
+}

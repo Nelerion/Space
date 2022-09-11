@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import {
@@ -8,7 +8,10 @@ import {
   isLoading,
   isLoadingFalse,
 } from "../../../../store/slices/nasaSlice";
-import { fetchMarsPhoto, fetchMarsPhotoLoadingMore } from "../../../header/fetch";
+import {
+  fetchMarsPhoto,
+  fetchMarsPhotoLoadingMore,
+} from "../../../header/fetch";
 
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
@@ -61,7 +64,7 @@ const CardImage = styled.img`
   object-fit: cover;
   opacity: 0.8;
   z-index: -1;
-  transition:300ms;
+  transition: 300ms;
   &:hover {
     opacity: 1;
     cursor: pointer;
@@ -91,19 +94,19 @@ const LoadMore = styled.input`
   width: 250px;
   height: 40px;
   display: flex;
- justify-content: center;
- align-items: center;
+  justify-content: center;
+  align-items: center;
   background: rgba(0, 0, 0, 0);
-  border:1px solid gray;
+  border: 1px solid gray;
   cursor: pointer;
   font-size: 30px;
   border-radius: 5px;
   outline: 0;
-  transition:300ms;
-  &:hover{
-    background-color:#1083ee;
-    border:0;
-    color:white;
+  transition: 300ms;
+  &:hover {
+    background-color: #1083ee;
+    border: 0;
+    color: white;
     transition: 200ms;
   }
 `;
@@ -111,7 +114,7 @@ const Mars = () => {
   const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.space.Mars.photos);
   const isLoad = useAppSelector((state) => state.space.loading);
-  const [counterMore,setCounterMore] = useState<number>(2)
+  const [counterMore, setCounterMore] = useState<number>(2);
   const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
@@ -130,11 +133,10 @@ const Mars = () => {
       });
     });
   }, []);
-  console.log(data);
 
-  const loadingMore = ()=>{
+  const loadingMore = () => {
     dispatch(isLoading());
-    setCounterMore(prev=>prev+1)
+    setCounterMore((prev) => prev + 1);
     fetchMarsPhotoLoadingMore(counterMore).then((res) => {
       if (res.status >= 400) {
         dispatch(isLoadingFalse());
@@ -148,9 +150,8 @@ const Mars = () => {
         dispatch(fetchingMarsLoadingMore(arr));
       });
     });
-  }
- 
-    
+  };
+
 
   return (
     <MarsContainer>
@@ -197,7 +198,11 @@ const Mars = () => {
           ))
         )}
       </MarsPhotos>
-      <LoadMore value="Load More" type="button" onClick={loadingMore}/>
+      <LoadMore
+        value="Load More"
+        type="button"
+        onClick={loadingMore}
+      />
     </MarsContainer>
   );
 };
