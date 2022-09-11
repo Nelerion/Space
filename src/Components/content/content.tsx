@@ -9,7 +9,7 @@ import TechTransfer from "./page/techTransfer/techTransfer";
 import FullInfo from "./page/techTransfer/fullInfo/fullInfo";
 import { fetchTechTransfer } from "../header/fetch";
 import { useState } from "react";
-import { fetchingTechTransfer, isLoadingFalse } from "../../store/slices/nasaSlice";
+import { fetchingTechTransfer, isLoading, isLoadingFalse } from "../../store/slices/nasaSlice";
 const ContentBox = styled.div`
   width: 100%;
   height: 100%;
@@ -23,6 +23,7 @@ const Content: React.FC = () => {
 const dispatch = useAppDispatch();
 const [error,setError]=useState<boolean>(false);
   const fetchTech = () => {
+    dispatch(isLoading());
     fetchTechTransfer().then((res) => {
       if (res.status >= 400) {
         dispatch(isLoadingFalse());
@@ -55,8 +56,8 @@ const [error,setError]=useState<boolean>(false);
         <Route path="/Asteroids" element={<Asteroids_page />} />
         <Route path="/EPIC" element={<EPIC />} />
         <Route path="/Mars" element={<Mars />} />
-        <Route path="/techTransfer" element={<TechTransfer />} />
-        <Route path="/techTransfer/:title" element={<FullInfo fetchTech={fetchTech}/>} />
+        <Route path="/techTransfer" element={<TechTransfer fetchTech={fetchTech}error={error}  />}/>
+        <Route path="/techTransfer/:title" element={<FullInfo fetchTech={fetchTech} error={error} />}/>
 
       </Routes>
     </ContentBox>

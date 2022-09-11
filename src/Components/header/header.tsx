@@ -36,11 +36,11 @@ const Header: React.FC = () => {
       case "/Mars":
         handleChange(3);
         break;
-      case "/techTransfer":
-        handleChange(4);
-        break;
     }
   }, [location.pathname]);
+  useEffect(()=>{
+    location.pathname.includes('/techTransfer')&& handleChange(4);
+  },[location.pathname])
 
   const [arr, setArr] = useState<ITabs[]>([
     {

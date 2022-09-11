@@ -5,7 +5,6 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import {
   fetchingEPIC,
-  IEPIC,
   isLoading,
   isLoadingFalse,
 } from "../../../../store/slices/nasaSlice";
@@ -26,6 +25,7 @@ import {
   ImageCard,
 } from "./style";
 import Error from "../../../error";
+import { IEPIC } from "./interfaces";
 
 const EPIC: React.FC = () => {
   const dispatch = useAppDispatch();

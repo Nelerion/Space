@@ -14,18 +14,17 @@ const BoxContainer = styled(Box)`
   justify-content: space-between;
 `;
 
-
 function App() {
-  const [startDateValue , setStartDateValue] = useState<string>('')
-  const [prevDateValue , setPrevDateValue] = useState<string>('')
+  const [startDateValue, setStartDateValue] = useState<string>("");
+  const [prevDateValue, setPrevDateValue] = useState<string>("");
   return (
     <>
-      <CssBaseline  />
-      <Container maxWidth="lg" >
+      <CssBaseline />
+      <Container maxWidth="lg">
         <BoxContainer sx={{ height: "100%" }}>
-          <Header  />
-          <Content   />
-      <Footer/>
+          <Header />
+          <Content />
+          <Footer />
         </BoxContainer>
       </Container>
     </>

@@ -10,7 +10,6 @@ import {
 
 import {
   fetchingAsteroids,
-  Iearth_objects,
   isLoading,
   isLoadingFalse,
 } from "../../../../store/slices/nasaSlice";
@@ -23,13 +22,12 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
-import Alert from "@mui/material/Alert";
-import { Stack } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { fetchAsteroids } from "../../../header/fetch";
 import format from "date-fns/format";
 import Error from "../../../error";
+import { Iearth_objects } from "./interfaces";
 
 const Asteroids_page: React.FC = () => {
   const dispatch = useAppDispatch();

@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import {
   fetchingMars,
   fetchingMarsLoadingMore,
-  IMars,
   isLoading,
   isLoadingFalse,
 } from "../../../../store/slices/nasaSlice";
@@ -16,6 +15,7 @@ import {
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 import Error from "./../../../error";
+import { IMars } from "./interfaces";
 
 const MarsContainer = styled.div`
   width: 100%;
