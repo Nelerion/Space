@@ -1,24 +1,33 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Button from "@mui/material/Button";
 import Tabs from "@mui/material/Tabs";
 import { NavLink, useLocation } from "react-router-dom";
 import logo from "./../../img/logo.png";
+import avatar from "./../../img/avatar.png";
 import { ITabs } from "./modal";
 import { useEffect, useState } from "react";
 import {
-  HeaderBox,
-  HeaderToolBar,
   TabBox,
   TabNav,
   TextLogo,
   Logo,
+  GitHub,
+  Avatar,
+  GitHubBlock,
+  Header_Box,
+  Header_logo,
+  BurgerMenu,
+  Burger_ul,
+  Burger_li,
+  Burger_border,
+  BurgerNavBlock,
+  NavBlockClose,
 } from "./style";
+import Container from "@mui/material/Container";
 
 const Header: React.FC = () => {
   const [value, setValue] = useState<number>(0);
   const location = useLocation();
+  const [openMenu, setOpenMenu] = useState<boolean>(true);
   const handleChange = (newValue: number) => {
     setValue(newValue);
   };
@@ -38,9 +47,9 @@ const Header: React.FC = () => {
         break;
     }
   }, [location.pathname]);
-  useEffect(()=>{
-    location.pathname.includes('/techTransfer')&& handleChange(4);
-  },[location.pathname])
+  useEffect(() => {
+    location.pathname.includes("/techTransfer") && handleChange(4);
+  }, [location.pathname]);
 
   const [arr, setArr] = useState<ITabs[]>([
     {
@@ -65,20 +74,48 @@ const Header: React.FC = () => {
       label: "TechTransfer",
     },
   ]);
-
+  const openBurgerMenu = () => {
+    setOpenMenu((prev) => !prev);
+  };
+  const closeBurgerMenu = () => {
+    setOpenMenu((prev) => !prev);
+  };
   return (
     <div>
-      <HeaderBox sx={{ flexGrow: 1 }}>
-        <AppBar position="static" style={{ backgroundColor: "#45048f" }}>
-          <Toolbar>
-            <HeaderToolBar variant="h3" sx={{ flexGrow: 1 }}>
-              <TextLogo>Space</TextLogo>
-              <Logo src={logo} alt="logo" />
-            </HeaderToolBar>
-            <Button color="inherit">Login</Button>
-          </Toolbar>
-        </AppBar>
-      </HeaderBox>
+      <Header_Box>
+        <BurgerNavBlock
+          right={openMenu ? "-3000px" : "0"}
+          width={openMenu ? "0" : "200px"}
+          height={openMenu ? "0" : "300px"}
+        >
+          <NavBlockClose onClick={closeBurgerMenu}>
+            <span>&#10006;</span>
+          </NavBlockClose>
+        </BurgerNavBlock>
+        <Header_logo>
+          <TextLogo>Space</TextLogo>
+          <Logo src={logo} alt="logo" />
+        </Header_logo>
+        <BurgerMenu rotate={openMenu ? "rotate(0deg)" : "rotate(90deg)"}>
+          <Burger_ul onClick={openBurgerMenu}>
+            <Burger_li>
+              <Burger_border></Burger_border>
+            </Burger_li>
+            <Burger_li>
+              <Burger_border></Burger_border>
+            </Burger_li>
+            <Burger_li>
+              <Burger_border></Burger_border>
+            </Burger_li>
+          </Burger_ul>
+        </BurgerMenu>
+        <GitHubBlock>
+          <GitHub href="https://github.com/Nelerion" target="_blank">
+            <span>GitHub</span>
+            <Avatar src={avatar} alt="avatar" />
+          </GitHub>
+        </GitHubBlock>
+      </Header_Box>
       <TabBox sx={{ width: "100%" }}>
         <Tabs value={value} centered>
           {arr.map((tab, i) => (

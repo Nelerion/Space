@@ -12,11 +12,10 @@ const BoxContainer = styled(Box)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
 `;
 
 function App() {
-  const [startDateValue, setStartDateValue] = useState<string>("");
-  const [prevDateValue, setPrevDateValue] = useState<string>("");
   return (
     <>
       <CssBaseline />

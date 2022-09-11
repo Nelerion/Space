@@ -20,6 +20,7 @@ import { fetchAPOD } from "../../../header/fetch";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
 import YouTube, { YouTubeProps } from "react-youtube";
+
 const APOD_page = () => {
   const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.space.APOD);
@@ -41,7 +42,6 @@ const APOD_page = () => {
   }, [error]);
 
   const onPlayerReady: YouTubeProps["onReady"] = (event) => {
-    // access to player in all event handlers via event.target
     event.target.pauseVideo();
   };
 
@@ -49,7 +49,6 @@ const APOD_page = () => {
     height: "390",
     width: "540",
     playerVars: {
-      // https://developers.google.com/youtube/player_parameters
       autoplay: 1,
     },
   };
