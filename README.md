@@ -1,46 +1,48 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+____
+ ### :mag_right: *`Space web site`* 
+ https://nelerion.github.io/Space/
+____
+**Использовал:**
+- React
+- Type-script
+- Redux toolkit
+- MUI
+- Date-fns
+- react-youtube
+- styled-components
+____
+- страница APOD
+![apod](https://user-images.githubusercontent.com/95306473/189705980-05d8c449-894f-47af-b2b3-0376b9d3f92d.png)
+Вся информация идет с API NASA, обновляеться каждый день;
+(если ссылка на картинку отображается картинка,
+если ссылка на youTube то показывает плеер
+  ____
+- страница Asteroids - NEOWS
+Вся информация идет с API NASA
+![Asteroids](https://user-images.githubusercontent.com/95306473/189706535-9fae7e83-e7ca-43f3-a700-998f73c6f44f.gif)
+Информация о астеройдах.
+Изначально показывает за последние 7 дней,
+но можно сделать запрос (с разницой не больше 7 дней)
+например:
+в поле start date -  2022-02-05 
+в поле end date -  2022-02-02 
+в итоге покажет информацию за эти три дня
+  ____
+- страница EPIC
+Вся информация идет с API NASA
+![Earth](https://user-images.githubusercontent.com/95306473/189706630-83b8ee78-c603-4a5e-ae76-6a0038b2cb48.gif)
+Снимки Земли на определенные даты с минимальной информацией.
+Изначально показывает снимки которые были сделаны 2 дня назад,
+но можно сделать запрос на определенную дату.
+  ____
+  - страница Mars
+  Вся информация идет с API NASA
+![mars](https://user-images.githubusercontent.com/95306473/189707023-8d4d1790-25ad-4521-abb8-aa1b2ab86425.gif)
+Снимки с ровера на Марсе.
+в конце страницы можно подгружать больше снимков.
+  ____
+    - страница TechTransfer
+    Вся информация идет с API NASA
+![tech](https://user-images.githubusercontent.com/95306473/189707286-7d92e0cc-7a1c-48fd-ae82-9b055082c634.gif)
+Информация о передаче технологий, можно также проволится в любую карточку и откроется все сожержимое через UseParams(react route)
+  ____
