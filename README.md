@@ -10,6 +10,7 @@ ____
 - Date-fns
 - react-youtube
 - styled-components
+- Адаптивно
 ____
 - страница APOD
 ![apod](https://user-images.githubusercontent.com/95306473/189705980-05d8c449-894f-47af-b2b3-0376b9d3f92d.png)
