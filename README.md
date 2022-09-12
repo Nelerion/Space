@@ -11,7 +11,6 @@ ____
 - react-youtube
 - styled-components
 ____
-Адаптивно
 ![mobile11](https://user-images.githubusercontent.com/95306473/189710047-4b69d402-ec6c-45b6-beca-9dc72f828cb8.jpg)
 ![mobil2](https://user-images.githubusercontent.com/95306473/189710067-9fef365c-c2db-4ecd-9ffd-affce41a89c8.jpg)
 ![mob3](https://user-images.githubusercontent.com/95306473/189710076-c9695a43-b248-4946-a71c-2278dbec1490.jpg)
