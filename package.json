@@ -1,7 +1,7 @@
 {
   "name": "space",
   "version": "0.1.0",
-  "homepage": "https://Nelerion.github.io/space/",
+  "homepage": "https://nelerion.github.io/space/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.4",
