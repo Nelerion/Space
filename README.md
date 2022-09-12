@@ -1,5 +1,5 @@
 ____
- ### :mag_right: *`Space web site`* 
+ ### :artificial_satellite: *`Space web site`* 
  https://nelerion.github.io/Space/
 ____
 **Использовал:**
