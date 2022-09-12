@@ -47,3 +47,9 @@ ____
 ![tech](https://user-images.githubusercontent.com/95306473/189707286-7d92e0cc-7a1c-48fd-ae82-9b055082c634.gif)
 Информация о передаче технологий, можно также проволится в любую карточку и откроется все сожержимое через UseParams(react route)
   ____
+  ![mobile1](https://user-images.githubusercontent.com/95306473/189709359-fd5bbc59-cd05-46ac-9d64-86d7d4501ca7.jpg)
+  ![mobil2](https://user-images.githubusercontent.com/95306473/189709379-6e249acb-c401-4e83-a341-47bc9fad7257.jpg)
+  ![mob3](https://user-images.githubusercontent.com/95306473/189709418-28374c58-de8a-4f89-86b4-fdd09f6b2bec.jpg)
+
+
+  
