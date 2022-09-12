@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { devices } from "../../../../mediaQueries/media";
 
 export const ContentData = styled.div`
   width: 100%;
@@ -6,6 +7,10 @@ export const ContentData = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: row;
+  @media ${devices.laptop} {
+    flex-direction: column;
+    margin-top:70px;
+  }
 `;
 
 export const InfoData = styled.div`
@@ -15,6 +20,15 @@ export const InfoData = styled.div`
   justify-content: start;
   flex-direction: column;
   padding: 40px;
+  @media ${devices.laptop} {
+    width: 100%;
+    flex-direction: column;
+    text-align: justify;
+  }
+  @media ${devices.tablet} {
+    padding: 20px;
+    text-align: justify;
+  }
 `;
 
 export const ImageData = styled.div`
@@ -31,10 +45,20 @@ export const ImageData = styled.div`
     opacity: 1;
     transition:300ms;
   }
+  @media ${devices.laptop} {
+    width: 100%;
+    align-items: center;
+  }
 `;
 
 export const Title = styled.h1`
   font-size: 2rem;
+  @media ${devices.tablet} {
+    font-size: 1.5rem;
+  }
+  @media ${devices.mobileL} {
+    text-align:center;
+  }
 `;
 
 export const Explanation = styled.span``;

@@ -1,8 +1,10 @@
 import styled from "styled-components";
+import { devices } from "../../../../../mediaQueries/media";
 
 export const Container = styled.div`
   margin-top: 5px;
   width: 100%;
+  
 `;
 export const FullInfoContainer = styled.div`
   width: 100%;
@@ -10,6 +12,13 @@ export const FullInfoContainer = styled.div`
   justify-content: space-between;
   margin-top: 5px;
   padding: 20px;
+  @media  ${devices.laptop} {
+    flex-direction: column;
+    align-items: center;
+  }
+  @media ${devices.tablet} {
+    margin-top:70px;
+  }
 `;
 
 export const InfoCard = styled.div`
@@ -18,6 +27,10 @@ export const InfoCard = styled.div`
   display: flex;
   align-items: flex-start;
   flex-direction: column;
+  @media  ${devices.laptop} {
+    width: 100%;
+    text-align: justify;
+  }
 `;
 export const Title = styled.h2`
   margin: 0;
@@ -40,6 +53,9 @@ export const OptionalText = styled.span`
 `;
 export const ImageCard = styled.div`
   width: 49%;
+  @media  ${devices.laptop} {
+    width: 100%;
+  }
 `;
 export const Image = styled.img`
   width: 100%;

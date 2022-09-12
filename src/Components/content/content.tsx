@@ -12,11 +12,12 @@ import { useState } from "react";
 import { fetchingTechTransfer, isLoading, isLoadingFalse } from "../../store/slices/nasaSlice";
 const ContentBox = styled.div`
   width: 100%;
-  height: 100%;
+  min-height:500px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #dad9ff61;
+
 `;
 
 const Content: React.FC = () => {
@@ -52,6 +53,7 @@ const [error,setError]=useState<boolean>(false);
     <ContentBox>
       <Routes>
         {/* <Route path="/" element={<APOD right="start info" />} /> */}
+        <Route path="/" element={<APOD_page />} />
         <Route path="/APOD" element={<APOD_page />} />
         <Route path="/Asteroids" element={<Asteroids_page />} />
         <Route path="/EPIC" element={<EPIC />} />

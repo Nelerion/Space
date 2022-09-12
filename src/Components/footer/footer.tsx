@@ -9,11 +9,13 @@ const FooterComponent = styled.div`
   border-top:1px solid #c9c7c5;
   
 `;
-
+const Link = styled.a`
+  color:blue;
+`
 const Footer = () => {
   
   return (<FooterComponent>
-  by Nelerion
+  <Link href="https://github.com/Nelerion" target="_blank">by Nelerion</Link>
   </FooterComponent>);
 };
 

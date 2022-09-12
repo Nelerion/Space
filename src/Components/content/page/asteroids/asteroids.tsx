@@ -153,7 +153,7 @@ const Asteroids_page: React.FC = () => {
           value={startDateAsteroidValue}
           onChange={onChangeAsteroidInput}
           name="startDate"
-          placeholder="start date format YYYY-MM-DD"
+          placeholder="start format YYYY-MM-DD"
         ></SearchAsteroidInput>
         <ButtonSearch
           type="button"
@@ -164,7 +164,7 @@ const Asteroids_page: React.FC = () => {
           value={endDateAsteroidValue}
           onChange={onChangeAsteroidInput}
           name="endDate"
-          placeholder="end date format YYYY-MM-DD"
+          placeholder="end  format YYYY-MM-DD"
         ></SearchAsteroidInput>
       </SearchAsteroidInputForm>
       {isLoad && (

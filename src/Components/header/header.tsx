@@ -5,6 +5,7 @@ import logo from "./../../img/logo.png";
 import avatar from "./../../img/avatar.png";
 import { ITabs } from "./modal";
 import { useEffect, useState } from "react";
+
 import {
   TabBox,
   TabNav,
@@ -21,8 +22,9 @@ import {
   Burger_border,
   BurgerNavBlock,
   NavBlockClose,
+  NavLinkList,
+  NavLinks,
 } from "./style";
-import Container from "@mui/material/Container";
 
 const Header: React.FC = () => {
   const [value, setValue] = useState<number>(0);
@@ -81,19 +83,26 @@ const Header: React.FC = () => {
     setOpenMenu((prev) => !prev);
   };
   return (
-    <div>
+    <>
       <Header_Box>
         <BurgerNavBlock
           right={openMenu ? "-3000px" : "0"}
           width={openMenu ? "0" : "200px"}
-          height={openMenu ? "0" : "300px"}
+          height={openMenu ? "0" : "auto"}
         >
           <NavBlockClose onClick={closeBurgerMenu}>
             <span>&#10006;</span>
           </NavBlockClose>
+          {arr.map((tab, i) => (
+            <NavLinkList>
+              <NavLinks to={tab.link} key={tab.link}>
+                {tab.label}
+              </NavLinks>
+            </NavLinkList>
+          ))}
         </BurgerNavBlock>
         <Header_logo>
-          <TextLogo>Space</TextLogo>
+          <TextLogo>SPACE</TextLogo>
           <Logo src={logo} alt="logo" />
         </Header_logo>
         <BurgerMenu rotate={openMenu ? "rotate(0deg)" : "rotate(90deg)"}>
@@ -116,7 +125,7 @@ const Header: React.FC = () => {
           </GitHub>
         </GitHubBlock>
       </Header_Box>
-      <TabBox sx={{ width: "100%" }}>
+      <TabBox sx={{ width: "100%" }} style={{ paddingTop: '70px'}}>
         <Tabs value={value} centered>
           {arr.map((tab, i) => (
             <NavLink to={tab.link} key={tab.link}>
@@ -129,7 +138,7 @@ const Header: React.FC = () => {
           ))}
         </Tabs>
       </TabBox>
-    </div>
+    </>
   );
 };
 
