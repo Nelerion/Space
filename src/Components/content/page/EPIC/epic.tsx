@@ -32,7 +32,7 @@ const EPIC: React.FC = () => {
   const isDate = new Date();
   const todayMonth: number = Number(isDate.getMonth());
   const todayYear: number = Number(isDate.getFullYear());
-  const day: number = Number(new Date().getDate());
+  const [day, setDay] = useState<number>(Number(new Date().getDate()));
   const isLoad = useAppSelector((state) => state.space.loading);
   const [valueDate, setValueDate] = useState<string>("");
   const prevDate = format(
@@ -48,39 +48,56 @@ const EPIC: React.FC = () => {
   const [prevDateImage, setPrevDateImage] = useState<string>(prevDate);
   const [error, setError] = useState<boolean>(false);
   useEffect(() => {
-    dispatch(isLoading());
-    fetchEPIC(startDateValue).then((res) => {
-      if (res.status >= 400) {
-        dispatch(isLoadingFalse());
-        setError(true);
-        return;
-      }
-      return res
-        .json()
-        .then((element) => {
-          if (element.length === 0) {
-            setError(true);
-          }
-          return element;
-        })
+    const lastDayDate = format(
+      new Date(todayYear, todayMonth, day - 2), //вчерашняя дата для адреса запроса
+      "yyyy-MM-dd"
+    );
+    const prevDate = format(
+      new Date(todayYear, todayMonth, day - 2), //вчерашняя дата для адреса картинки
+      "yyyy/MM/dd"
+    );
 
-        .then((element) => {
-          if (element.length !== 0) {
-            setError(false);
-            let arr: IEPIC[] = [];
-            element.map((element: IEPIC) => {
-              arr.push({
-                caption: element.caption,
-                centroid_coordinates: element.centroid_coordinates,
-                date: element.date,
-                image: element.image,
-              });
-            });
-            dispatch(fetchingEPIC(arr));
-          }
+    setStartDateValue(lastDayDate);
+    setPrevDateImage(prevDate);
+  }, [day]);
+  useEffect(() => {
+    const fecthEPICrecurse = () => {
+      dispatch(isLoading());
+      fetchEPIC(startDateValue).then((res) => {
+        if (res.status >= 400) {
           dispatch(isLoadingFalse());
-        });
-    });
+          setError(true);
+          return;
+        }
+        return res
+          .json()
+          .then((element) => {
+            return element;
+          })
+
+          .then((element) => {
+            if (element.length === 0) {
+              setDay((prev) => prev - 1);
+              return;
+            }
+            if (element.length !== 0) {
+              setError(false);
+              let arr: IEPIC[] = [];
+              element.map((element: IEPIC) => {
+                arr.push({
+                  caption: element.caption,
+                  centroid_coordinates: element.centroid_coordinates,
+                  date: element.date,
+                  image: element.image,
+                });
+              });
+              dispatch(fetchingEPIC(arr));
+            }
+            dispatch(isLoadingFalse());
+          });
+      });
+    };
+    fecthEPICrecurse();
   }, [startDateValue]);
 
   const data = useAppSelector((state) => state.space.EPIC);
@@ -102,7 +119,6 @@ const EPIC: React.FC = () => {
     }
   }, [valueDate]);
 
-  
   return (
     <Epic>
       <FormSearchEarth>

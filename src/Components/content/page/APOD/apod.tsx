@@ -20,6 +20,7 @@ import { fetchAPOD } from "../../../header/fetch";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
 import YouTube, { YouTubeProps } from "react-youtube";
+import styled from "styled-components";
 
 const APOD_page = () => {
   const dispatch = useAppDispatch();
@@ -44,6 +45,7 @@ const APOD_page = () => {
   const onPlayerReady: YouTubeProps["onReady"] = (event) => {
     event.target.pauseVideo();
   };
+  console.log(data)
 
   const opts: YouTubeProps["opts"] = {
     height: "390",
@@ -53,15 +55,17 @@ const APOD_page = () => {
     },
   };
 
-
+const Container = styled.div`
+  width:100%;
+`
   return (
-    <div>
+    <Container>
       {isLoad && (
         <Box sx={{ width: "100%" }}>
           <LinearProgress />
         </Box>
       )}
-      {error ? (
+      {error||!data?.url ? (
         <Error />
       ) : (
         <ContentData>
@@ -86,7 +90,7 @@ const APOD_page = () => {
           </ImageData>
         </ContentData>
       )}
-    </div>
+    </Container>
   );
 };
 
