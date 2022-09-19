@@ -40,12 +40,12 @@ const APOD_page = () => {
         dispatch(fetchingAPOD(result));
       });
     });
-  }, [error]);
+  }, []);
 
   const onPlayerReady: YouTubeProps["onReady"] = (event) => {
     event.target.pauseVideo();
   };
-  console.log(data)
+
 
   const opts: YouTubeProps["opts"] = {
     height: "390",
@@ -58,6 +58,7 @@ const APOD_page = () => {
 const Container = styled.div`
   width:100%;
 `
+
   return (
     <Container>
       {isLoad && (
@@ -65,7 +66,7 @@ const Container = styled.div`
           <LinearProgress />
         </Box>
       )}
-      {error||!data?.url ? (
+      {error ? (
         <Error />
       ) : (
         <ContentData>
@@ -84,7 +85,7 @@ const Container = styled.div`
               />
             ) : (
               <a href={`${data?.url}`}>
-                <Image src={data?.url} alt={`${data?.title}`} />
+                {!data?.url?null:<Image src={data?.url} alt={`${data?.title}`} />}
               </a>
             )}
           </ImageData>
